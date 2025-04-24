@@ -86,7 +86,7 @@ class FF_OT_Encode(bpy.types.Operator):
         else:
             args += ['-r', str(context.scene.render.fps)]
             args += ['-start_number', str(context.scene.frame_start)]
-            args += ['-i', context.scene.ffSettings.frameDir + '%05d.png'] 
+            args += ['-i', context.scene.ffSettings.frameDir + '/%05d.png'] 
         return args
     
     def getArgs(self, context):
@@ -137,6 +137,7 @@ class FF_OT_Render(bpy.types.Operator):
         frameDir = context.scene.ffSettings.frameDir
         if not context.scene.ffSettings.storeFrames:
             frameDir = tempfile.mkdtemp()
+            context.scene.ffSettings.frameDir = frameDir
             
         # Render frames individually to prevent blender visually hanging
         for i in range(context.scene.frame_start, context.scene.frame_end + 1):
